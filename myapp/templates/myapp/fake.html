@@ -1,0 +1,80 @@
+from django.shortcuts import render
+from .models import Transaction
+
+def transaction_history(request):
+    user_email = request.session.get('Email')
+    transactions = Transaction.objects.filter(user__Email=user_email)
+    return render(request, 'myapp/transaction_history.html', {'transactions': transactions})
+
+def upi_payment(request):
+    if request.method == 'POST':
+        # Handle form submission here
+        upi_details = request.POST.get('upi_details')
+        upi_amount = int(request.POST.get('upi_amount'))
+        user_email = request.session.get('Email')
+        user = customer.objects.get(Email=user_email)
+        # Deduct payment amount from user's balance
+        if user.Balance < upi_amount:
+            msg = "Payment failed: insufficient balance."
+        else:
+            user.Balance -= upi_amount
+            user.save()
+            # Create a transaction object and save it
+            transaction = Transaction(user=user, payment_type='UPI', payment_details=upi_details, amount=upi_amount)
+            transaction.save()
+            request.session['Balance'] = user.Balance
+            msg = "Payment successful!"
+    else:
+        # Display form for UPI payment
+        msg = ""
+
+    return render(request, "myapp/upi.html", {'msg': msg})
+
+def bank_payment(request):
+    if request.method == 'POST':
+        # Handle form submission here
+        bank_details = request.POST.get('bank_details')
+        Acount_number = request.POST.get('Acount_number')
+        Ifsc_code = request.POST.get('Ifsc_code')
+        bank_amount = int(request.POST.get('bank_amount'))
+        user_email = request.session.get('Email')
+        user = customer.objects.get(Email=user_email)
+        # Deduct payment amount from user's balance
+        if int(user.Balance) < bank_amount:
+            msg = "Payment failed: insufficient balance."
+        else:
+            user.Balance -= bank_amount
+            user.save()
+            # Create a transaction object and save it
+            transaction = Transaction(user=user, payment_type='Bank', payment_details=bank_details, amount=bank_amount)
+            transaction.save()
+            request.session['Balance'] = user.Balance
+            msg = "Payment successful!"
+    else:
+        # Display form for UPI payment
+        msg = ""
+
+    return render(request, "myapp/sent_to_bank.html", {'msg': msg})
+
+def deposite_paymet(request):
+    if request.method == 'POST':
+        # Handle form submission here
+        amount = int(request.POST.get('amount'))
+        user_email = request.session.get('Email')
+        user = customer.objects.get(Email=user_email)
+        # Deduct payment amount from user's balance
+        if  amount <= 0:
+            msg = "Enter the valid money"
+        else:
+            user.Balance += amount
+            user.save()
+            # Create a transaction object and save it
+            transaction = Transaction(user=user, payment_type='Deposit', payment_details='N/A', amount=amount)
+            transaction.save()
+            request.session['Balance'] = user.Balance
+            msg = "Payment successful!"
+    else:
+        # Display form for UPI payment
+        msg = ""
+
+    return render(request, "myapp/deposit.html", {'msg': msg})

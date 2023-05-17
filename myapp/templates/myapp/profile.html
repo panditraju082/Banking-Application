@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Dummy Banking System" />
+        <meta name="author" content="Maksudul Haque" />
+        <title>
+        </title>
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+            html,
+            body {
+                height: 100%;
+                width: 100%;
+            }
+            
+            body {
+                background-image: url('{% static "img/wp.jpg" %}');
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                padding-bottom: 15em;
+            }
+            body #main{
+                padding-bottom: 5em;
+            }
+            
+            footer {
+                position: fixed !important;
+                bottom: 0 !important;
+                width: 100%;
+            }
+            table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+        </style>
+    </head>
+    <body class="bg-gray-100">
+        {% block body %}
+        <nav class="flex items-center justify-between flex-wrap bg-blue-400 p-6 px-10">
+          <div class="flex items-center flex-shrink-0 text-white mr-6">
+              <span class="font-semibold text-xl tracking-tight text-white">Simple Banking System</span>
+          </div>
+          <div class="block lg:hidden">
+              <button class="flex items-center px-3 py-2 border rounded text-white border-white-400 hover:text-white hover:border-white">
+                  <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+              </button>
+          </div>
+          <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto px-10">
+                  <div class="text-md lg:flex-grow">
+                      <a href="{% url 'afterloginhome' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                          Home
+                      </a>
+                      <a href="{% url 't_hisotry' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                        Transaction_History
+                      </a>
+                      <a href="{% url 'send_money' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                          Send_Money
+                      </a>
+                      <a href="{% url 'deposite_money' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                        Deposit_money
+                    </a>
+                      <a href="{% url 'user_profile' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white">
+                        Profile
+                    </a>
+                  </div>
+                  <div class="flex w-auto">
+                      <div class="text-blue-900 my-auto font-black px-5">Welcome, {{request.session.Name}}!</div>
+                      <a href="{% url 'user_logout' %}" class="mx-2 inline-block font-medium text-sm px-4 py-2 leading-none bg-blue-900 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-white mt-4 lg:mt-0">Logout</a>
+                  </div>
+          </div>
+      </nav>
+      
+            <div class="lg:container lg:mx-auto" id="main">
+                {% block content %}
+                    <div class="lg:container lg:mx-auto" id="main">
+                        <center>
+                            <h1 style="color:red; font-size:25px; text-shadow: 2px 2px 2px #000000;">THIS IS YOUR PROFILE</h1>
+                          <table class="table-auto border my-4">
+                            <thead>
+                              <tr>
+                                <th class="px-4 py-2">Name</th>
+                                <th class="px-4 py-2">Email</th>
+                                <th class="px-4 py-2">Contact</th>
+                                <th class="px-4 py-2">Date of birth</th>
+                                <th class="px-4 py-2">Gender</th>
+                                <th class="px-4 py-2">Balance</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class="border px-4 py-2">{{request.session.Name}}</td>
+                                <td class="border px-4 py-2">{{request.session.Email}}</td>
+                                <td class="border px-4 py-2">{{request.session.Contact}}</td>
+                                <td class="border px-4 py-2">{{request.session.Dob}}</td>
+                                <td class="border px-4 py-2">{{request.session.Gender}}</td>
+                                <td class="border px-4 py-2">{{request.session.Balance}}</p></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                        </center>
+                      </div>
+                      </center>
+                {% endblock %}
+            </div>
+            {% include 'myapp/footer.html' %}
+
+        {% endblock %}
+        {% block footer_extra %}{% endblock %}
+    </body>
+
+</html>

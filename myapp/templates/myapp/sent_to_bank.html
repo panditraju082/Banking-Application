@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Dummy Banking System" />
+        <meta name="author" content="Maksudul Haque" />
+        <title>
+        </title>
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+            html,
+            body {
+                height: 100%;
+                width: 100%;
+            }
+            
+            body {
+                background-image: url('{% static "img/wp.jpg" %}');
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                padding-bottom: 15em;
+            }
+            body #main{
+                padding-bottom: 5em;
+            }
+            
+            footer {
+                position: fixed !important;
+                bottom: 0 !important;
+                width: 100%;
+            }
+            .table-container {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.table-row {
+  display: table-row;
+}
+
+.table-cell {
+  display: table-cell;
+  padding: 10px;
+  vertical-align: top;
+}
+
+.form-row {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+}
+
+.button-upi {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.button-upi:hover {
+  background-color: #0056b3;
+}
+
+.button-pay {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.button-pay:hover {
+  background-color: #0056b3;
+}
+
+        </style>
+    </head>
+    <body class="bg-gray-100">
+        {% block body %}
+        <nav class="flex items-center justify-between flex-wrap bg-blue-400 p-6 px-10">
+          <div class="flex items-center flex-shrink-0 text-white mr-6">
+              <span class="font-semibold text-xl tracking-tight text-white">Simple Banking System</span>
+          </div>
+          <div class="block lg:hidden">
+              <button class="flex items-center px-3 py-2 border rounded text-white border-white-400 hover:text-white hover:border-white">
+                  <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+              </button>
+          </div>
+          <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto px-10">
+                  <div class="text-md lg:flex-grow">
+                      <a href="{% url 'afterloginhome' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                          Home
+                      </a>
+                      <a href="{% url 't_hisotry' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                        Transaction_History
+                      </a>
+                      <a href="{% url 'send_money' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                          Send_Money
+                      </a>
+                      <a href="{% url 'deposite_money' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                        Deposit_money
+                    </a>
+                      <a href="{% url 'user_profile' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white">
+                        Profile
+                    </a>
+                  </div>
+                  <div class="flex w-auto">
+                      <div class="text-blue-900 my-auto font-black px-5">Welcome, {{request.session.Name}}!</div>
+                      <a href="{% url 'user_logout' %}" class="mx-2 inline-block font-medium text-sm px-4 py-2 leading-none bg-blue-900 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-white mt-4 lg:mt-0">Logout</a>
+                  </div>
+          </div>
+      </nav>
+      
+            <div class="lg:container lg:mx-auto" id="main">
+                {% block content %}
+                <center>
+                    <div class="flex justify-center mt-10">
+                        <div class="w-1/3 mx-4">
+                            <div class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full block text-center">
+                                To ACCOUNT
+                            </div>
+                        </div>
+                        <div class="w-1/3 mx-4">
+                            <form method="post" action="{% url 'bank_payment' %}">
+                                {% csrf_token %}
+                                <div class="flex flex-col">
+                                    <label for="bank_name">Bank Name:</label>
+                                    <input type="text" id="bank_name" name="bank_name" required>
+                                </div>
+                                <div class="flex flex-col">
+                                    <label for="account_number">Account Number:</label>
+                                    <input type="text" id="account_number" name="account_number" required>
+                                </div>
+                                <div class="flex flex-col">
+                                    <label for="ifsc_code">IFSC Code:</label>
+                                    <input type="text" id="ifsc_code" name="ifsc_code" required>
+                                </div>
+                                <div class="flex flex-col">
+                                    <label for="amount">Amount:</label>
+                                    <input type="number" id="amount" name="bank_amount" min="1" required>
+                                </div>
+                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full block text-center">
+                                    Pay
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </center>
+                <center> <h1 style="color:green; font-size:25px; text-shadow: 2px 2px 2px #000000;">{{msg}}</h1></center>
+              
+                {% endblock %}
+            </div>
+            {% include 'myapp/footer.html' %}
+
+        {% endblock %}
+        {% block footer_extra %}{% endblock %}
+    </body>
+
+</html>

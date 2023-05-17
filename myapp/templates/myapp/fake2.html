@@ -1,0 +1,52 @@
+<center>
+  <h1 style="color:red; font-size:25px; text-shadow: 2px 2px 2px #000000;">THIS IS YOUR TRANSACTION HISTORY</h1>
+  <table class="table-auto border my-4">
+      <thead>
+          <tr>
+              <th class="px-4 py-2">ID</th>
+              <th class="px-4 py-2">Type</th>
+              <th class="px-4 py-2">Sent/Deposited</th>
+              <th class="px-4 py-2">Amount</th>
+              <th class="px-4 py-2">Transaction Date / Time</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for transaction in transactions %}
+          <tr>
+              <td class="border px-4 py-2">{{ transaction.id }}</td>
+              <td class="border px-4 py-2">
+                  {% if transaction in upi_transactions %}
+                      UPI
+                  {% elif transaction in deposit_transactions %}
+                      Deposit
+                  {% elif transaction in bank_transactions %}
+                      Bank
+                  {% endif %}
+              </td>
+              <td class="border px-4 py-2">{{ transaction.amount }}</td>
+              <td class="border px-4 py-2">
+                  {% if transaction in upi_transactions %}
+                      UPI
+                  {% elif transaction in deposit_transactions %}
+                      Deposit
+                  {% elif transaction in bank_transactions %}
+                      Bank
+                  {% endif %}
+              </td>
+              <td class="border px-4 py-2">{{ transaction.amount }}</td>
+              <td class="border px-4 py-2">
+                  {% if transaction in upi_transactions %}
+                  {{transaction.Upi_amount}}
+                  {% elif transaction in deposit_transactions %}
+                  {{transaction.Amount}}
+                  {% elif transaction in bank_transactions %}
+                  {{transaction.Bank_amount}}
+                  {% endif %}
+              </td>
+              
+              <td class="border px-4 py-2">{{ transaction.transaction_time }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</center>
